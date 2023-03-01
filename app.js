@@ -26,5 +26,17 @@ const PlayerFactory = (name, mark) => {
 const player1 = PlayerFactory("Player 1", "X");
 const player2 = PlayerFactory("Player 2", "O");
 
+// Select cell
+// Use event delegation - add event listener to the parent element
+row.addEventListener("click", (e) => {
+    // If the target element is the div that we need, execute
+    if (e.target.matches(".cell")) {
+        // Use closest to select the closest ancestor with the class 'cell', which will be the current clicked element
+        const cell = e.target.closest(".cell");
+        console.log(cell);
+        cell.innerHTML = "X";
+    }
+});
+
 // Create table
 Gameboard.createTable();
