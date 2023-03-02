@@ -134,9 +134,9 @@ const CheckWinner = (board) => {
 
     // Display winner or tie message
     if (winner) {
-        console.log(`The winner is ${winner}!`);
+        return console.log(`The winner is ${winner}!`);
     } else if (isTie) {
-        console.log("It's a tie!");
+        return console.log("It's a tie!");
     }
 };
 
