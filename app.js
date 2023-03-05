@@ -7,6 +7,8 @@ let table = [
     ["", "", ""],
 ];
 
+let playing = true;
+
 // Store the gameboard as an array inside the Gameboard object
 // Use a Module Pattern to create a single gameboard
 const Gameboard = (() => {
@@ -44,34 +46,36 @@ const Game = (() => {
         let currentPlayer = player1;
         // Use event delegation - add event listener to the parent element
         row.addEventListener("click", (e) => {
-            // If the target element is the div that we need, execute
-            if (e.target.matches(".cell")) {
-                // Use closest to select the closest ancestor with the class 'cell', which will be the current clicked element
-                const cellClicked = e.target.closest(".cell");
+            if (playing) {
+                // If the target element is the div that we need, execute
+                if (e.target.matches(".cell")) {
+                    // Use closest to select the closest ancestor with the class 'cell', which will be the current clicked element
+                    const cellClicked = e.target.closest(".cell");
 
-                // Get the row and column index from the dataset properties
-                const rowIndex = parseInt(cellClicked.dataset.row);
-                const colIndex = parseInt(cellClicked.dataset.col);
+                    // Get the row and column index from the dataset properties
+                    const rowIndex = parseInt(cellClicked.dataset.row);
+                    const colIndex = parseInt(cellClicked.dataset.col);
 
-                // Update the table with the current player's mark
-                if (
-                    currentPlayer == player1 &&
-                    table[rowIndex][colIndex] == ""
-                ) {
-                    table[rowIndex][colIndex] = player1.mark;
-                    cellClicked.innerHTML = player1.mark;
-                    // Switch player
-                    currentPlayer = player2;
-                } else if (
-                    currentPlayer == player2 &&
-                    table[rowIndex][colIndex] == ""
-                ) {
-                    table[rowIndex][colIndex] = player2.mark;
-                    cellClicked.innerHTML = player2.mark;
-                    // Switch player
-                    currentPlayer = player1;
+                    // Update the table with the current player's mark
+                    if (
+                        currentPlayer == player1 &&
+                        table[rowIndex][colIndex] == ""
+                    ) {
+                        table[rowIndex][colIndex] = player1.mark;
+                        cellClicked.innerHTML = player1.mark;
+                        // Switch player
+                        currentPlayer = player2;
+                    } else if (
+                        currentPlayer == player2 &&
+                        table[rowIndex][colIndex] == ""
+                    ) {
+                        table[rowIndex][colIndex] = player2.mark;
+                        cellClicked.innerHTML = player2.mark;
+                        // Switch player
+                        currentPlayer = player1;
+                    }
+                    CheckWinner(table);
                 }
-                CheckWinner(table);
             }
         });
     };
@@ -134,17 +138,17 @@ const CheckWinner = (board) => {
 
     // Display winner or tie message
     if (winner) {
+        playing = false;
         console.log(`The winner is ${winner}!`);
         return winner;
     } else if (isTie) {
+        playing = false;
         console.log("It's a tie!");
         return "Tie";
     } else {
         return null;
     }
 };
-
-CheckWinner(table);
 
 // Create table
 Gameboard.createTable();
