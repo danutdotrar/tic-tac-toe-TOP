@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -43,4 +44,91 @@ body {
     align-items: center;
     font-weight: bold;
     font-size: 30px;
+}
+
+/* MODAL */
+.modal {
+    width: 300px;
+    height: 250px;
+    background-color: rgb(223, 221, 150);
+    z-index: 100;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 5px;
+    animation: showModal;
+    animation-duration: 2s;
+    opacity: 0.95;
+}
+
+.modal .winner {
+    font-size: 18px;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 12px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+}
+
+button.close {
+    font-size: 20px;
+    margin-right: 14px;
+}
+
+button.restart {
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+/* OVERLAY */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: showOverlay;
+    animation-duration: 0.3s;
+    opacity: 0.6;
+}
+
+@keyframes showModal {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.95;
+    }
+}
+
+@keyframes showOverlay {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0.6;
+    }
 }

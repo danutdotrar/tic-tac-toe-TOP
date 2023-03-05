@@ -4,6 +4,13 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+            integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
         <link rel="stylesheet" href="style.css" />
         <title>Tic Tac Toe</title>
     </head>
@@ -19,6 +26,18 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal hidden" id="modal">
+            <!-- <button class="close" id="close">
+                <i class="fa fa-times 2"></i>
+            </button> -->
+            <div class="text-winner" id="text-winner">
+                The winner is: Player 1!
+            </div>
+            <button class="restart" id="restart">Restart Game</button>
+        </div>
+
+        <div class="overlay hidden" id="overlay"></div>
 
         <script src="app.js"></script>
     </body>

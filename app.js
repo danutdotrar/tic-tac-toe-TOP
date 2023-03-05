@@ -1,5 +1,9 @@
 const row = document.querySelector("#row");
 const cells = document.querySelectorAll(".cell");
+const restartBtn = document.querySelector("#restart");
+const modal = document.querySelector("#modal");
+const overlay = document.querySelector("#overlay");
+const textWinner = document.querySelector("#text-winner");
 
 let table = [
     ["", "", ""],
@@ -40,10 +44,11 @@ const player2 = PlayerFactory("Player 2", "O");
 
 // The game begins
 const Game = (() => {
+    // Set the initial player
+    let currentPlayer = player1;
+
     // Select cell
     const selectCell = () => {
-        // Set the initial player
-        let currentPlayer = player1;
         // Use event delegation - add event listener to the parent element
         row.addEventListener("click", (e) => {
             if (playing) {
@@ -74,55 +79,81 @@ const Game = (() => {
                         // Switch player
                         currentPlayer = player1;
                     }
-                    CheckWinner(table);
+                    checkWinner(table);
                 }
             }
         });
     };
 
-    return { selectCell };
+    const restartGame = () => {
+        restartBtn.addEventListener("click", () => {
+            // Add hidden class to modal
+            modal.classList.add("hidden");
+            overlay.classList.add("hidden");
+
+            // Clear div cells
+            for (let i = 0; i < table.length; i++) {
+                for (let j = 0; j < table.length; j++) {
+                    // Select each cell
+                    const cell = document.querySelector(".cell");
+                    // Empty cells
+                    cell.innerHTML = "";
+                    table[i][j] = "";
+                    // Update row
+                    row.appendChild(cell);
+                }
+            }
+
+            playing = true;
+
+            currentPlayer = player1;
+        });
+    };
+
+    return { selectCell, restartGame };
 })();
 
-// Check the winner
-const CheckWinner = (board) => {
+// Check the winner function
+const checkWinner = (board) => {
     let winner;
     // Check for all possible winning combinations
     for (let i = 0; i < 3; i++) {
-        // Check horizontal rows X
-        if (board[i][0] === "X" && board[i][1] === "X" && board[i][2] === "X") {
-            winner = player1.name;
-            break;
-        }
-        // Check vertical columns X
-        if (board[0][i] === "X" && board[1][i] === "X" && board[2][i] == "X") {
+        // Check horizontal and vertical  X
+        if (
+            (board[i][0] === "X" &&
+                board[i][1] === "X" &&
+                board[i][2] === "X") ||
+            (board[0][i] === "X" && board[1][i] === "X" && board[2][i] == "X")
+        ) {
             winner = player1.name;
             break;
         }
 
-        // Check vertical columns O
-        if (board[i][0] === "O" && board[i][1] === "O" && board[i][2] === "O") {
-            winner = player2.name;
-            break;
-        }
-        // Check vertical columns O
-        if (board[0][i] === "O" && board[1][i] === "O" && board[2][i] == "O") {
+        // Check horizontal and vertical  O
+        if (
+            (board[i][0] === "O" &&
+                board[i][1] === "O" &&
+                board[i][2] === "O") ||
+            (board[0][i] === "O" && board[1][i] === "O" && board[2][i] == "O")
+        ) {
             winner = player2.name;
             break;
         }
     }
+
     // Check diagonal lines X
-    if (board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X") {
-        winner = player1.name;
-    }
-    if (board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X") {
+    if (
+        (board[0][0] === "X" && board[1][1] === "X" && board[2][2] === "X") ||
+        (board[0][2] === "X" && board[1][1] === "X" && board[2][0] === "X")
+    ) {
         winner = player1.name;
     }
 
     // Check diagonal lines O
-    if (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") {
-        winner = player2.name;
-    }
-    if (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O") {
+    if (
+        (board[0][0] === "O" && board[1][1] === "O" && board[2][2] === "O") ||
+        (board[0][2] === "O" && board[1][1] === "O" && board[2][0] === "O")
+    ) {
         winner = player2.name;
     }
 
@@ -138,18 +169,34 @@ const CheckWinner = (board) => {
 
     // Display winner or tie message
     if (winner) {
+        // Stop playing
         playing = false;
+        // TBD - function
+        modal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+        textWinner.innerHTML = `The winner is ${winner}!`;
         console.log(`The winner is ${winner}!`);
+
         return winner;
     } else if (isTie) {
+        // Stop playing
         playing = false;
+
+        // TBD - function
+        modal.classList.remove("hidden");
+        overlay.classList.remove("hidden");
+        textWinner.innerHTML = `It's a tie!!`;
         console.log("It's a tie!");
+
         return "Tie";
     } else {
         return null;
     }
 };
 
-// Create table
-Gameboard.createTable();
-Game.selectCell();
+// Play the game
+const playGame = (() => {
+    Gameboard.createTable();
+    Game.selectCell();
+    Game.restartGame();
+})();
