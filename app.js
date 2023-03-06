@@ -174,8 +174,7 @@ const checkWinner = (board) => {
         // TBD - function
         modal.classList.remove("hidden");
         overlay.classList.remove("hidden");
-        textWinner.innerHTML = `The winner is ${winner}!`;
-        console.log(`The winner is ${winner}!`);
+        textWinner.innerHTML = `The winner is: ${winner}!`;
 
         return winner;
     } else if (isTie) {
@@ -185,8 +184,7 @@ const checkWinner = (board) => {
         // TBD - function
         modal.classList.remove("hidden");
         overlay.classList.remove("hidden");
-        textWinner.innerHTML = `It's a tie!!`;
-        console.log("It's a tie!");
+        textWinner.innerHTML = `It's a tie!`;
 
         return "Tie";
     } else {
